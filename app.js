@@ -14,7 +14,7 @@ function fetchMyfxbookData() {
   fetch(API_URL)
     .then(res => res.json())
     .then(json => {
-      // Map longPercentage/shortPercentage to buy/sell
+      // Perbaikan: gunakan longPercentage/shortPercentage
       const data = (json.symbols || []).map(s => ({
         name: s.name,
         buy: s.longPercentage,
