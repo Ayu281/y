@@ -33,32 +33,7 @@ const PAIR_UMUM = [
 
 const API_URL = "https://corsproxy.io/?https://www.myfxbook.com/api/get-community-outlook.json?session=9UtvFTG9S31Z4vO1aDW31671626";
 
-// Tombol refresh otomatis diinject
-function injectRefreshButton() {
-  if (!document.getElementById("refresh-sinyal-btn")) {
-    const btn = document.createElement("button");
-    btn.id = "refresh-sinyal-btn";
-    btn.title = "Refresh Sinyal";
-    btn.innerHTML = '<span style="font-size:18px;vertical-align:middle" class="refresh-icon">&#x21bb;</span> Refresh Sinyal';
-    btn.style.margin = "12px 0 8px 0";
-    btn.style.padding = "4px 12px";
-    btn.style.borderRadius = "6px";
-    btn.style.border = "none";
-    btn.style.background = "#222";
-    btn.style.color = "#ff9800";
-    btn.style.cursor = "pointer";
-    btn.onclick = () => {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="refresh-icon" style="font-size:18px;vertical-align:middle">&#8635;</span> Memuat...';
-      fetchMyfxbookData().then(() => {
-        btn.disabled = false;
-        btn.innerHTML = '<span style="font-size:18px;vertical-align:middle" class="refresh-icon">&#x21bb;</span> Refresh Sinyal';
-      });
-    };
-    const signalBox = document.getElementById("signal-output").parentElement;
-    signalBox.insertBefore(btn, signalBox.firstChild);
-  }
-}
+
 
 async function fetchMyfxbookData() {
   try {
