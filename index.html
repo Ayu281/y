@@ -1,61 +1,95 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TraderSharing</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>TraderSharing - Advanced Trading Analysis</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header">
-    <div class="logo">📈 TraderSharing</div>
-    <div class="pair-selector">
-      <label for="pair">Pilih Pair:</label>
-      <select id="pair">
-        <option value="EUR/USD">EUR/USD</option>
-        <option value="USD/JPY">USD/JPY</option>
-        <option value="GBP/USD">GBP/USD</option>
-        <option value="AUD/NZD">AUD/NZD</option>
-        <option value="AUD/JPY">AUD/JPY</option>
-        <option value="EUR/JPY">EUR/JPY</option>
-        <option value="NZD/USD">NZD/USD</option>
-        <option value="USD/CHF">USD/CHF</option>
-        <option value="CAD/JPY">CAD/JPY</option>
-        <option value="GBP/JPY">GBP/JPY</option>
-        <option value="EUR/GBP">EUR/GBP</option>
-        <option value="EUR/AUD">EUR/AUD</option>
-        <option value="AUD/CAD">AUD/CAD</option>
-        <option value="GBP/AUD">GBP/AUD</option>
-        <option value="NZD/JPY">NZD/JPY</option>
-        <option value="EUR/CHF">EUR/CHF</option>
-        <option value="USD/CAD">USD/CAD</option>
-        <option value="AUD/USD">AUD/USD</option>
-        <option value="CHF/JPY">CHF/JPY</option>
-        <option value="GBP/CHF">GBP/CHF</option>
-        <option value="NZD/CAD">NZD/CAD</option>
-        <option value="USD/SGD">USD/SGD</option>
-        <option value="EUR/NZD">EUR/NZD</option>
-        <option value="GBP/NZD">GBP/NZD</option>
-        <option value="CAD/CHF">CAD/CHF</option>
-      </select>
+  <!-- HEADER -->
+  <div class="header-box">
+    <div class="header-row">
+      <div>
+        <span class="header-icon">📈</span>
+        <span class="header-title">TraderSharing</span>
+      </div>
+      <div class="notif-bell">
+        <span class="bell-icon">🔔</span>
+        <span class="notif-badge">3</span>
+      </div>
+    </div>
+    <div class="header-row2">
+      <span class="header-icon2">📈</span>
+      <span class="header-title2">Advanced Trading Analysis</span>
+    </div>
+    <div class="header-desc">Real-time anomaly detection and technical analysis</div>
+  </div>
+
+  <!-- PILIH PAIR -->
+  <div class="pair-block">
+    <div class="pair-label"><span class="pair-icon">$</span> Pilih Pair:</div>
+    <select id="pair" class="pair-select">
+      <option>EUR/USD</option>
+      <option>USD/JPY</option>
+      <option>GBP/USD</option>
+      <option>AUD/USD</option>
+      <option>USD/CHF</option>
+      <option>NZD/USD</option>
+      <option>USD/CAD</option>
+      <option>EUR/JPY</option>
+      <option>EUR/GBP</option>
+      <option>EUR/AUD</option>
+      <option>EUR/CHF</option>
+      <option>EUR/CAD</option>
+      <option>EUR/NZD</option>
+      <option>GBP/JPY</option>
+      <option>GBP/AUD</option>
+      <option>GBP/CHF</option>
+      <option>GBP/CAD</option>
+      <option>GBP/NZD</option>
+      <option>AUD/JPY</option>
+      <option>AUD/NZD</option>
+      <option>AUD/CAD</option>
+      <option>AUD/CHF</option>
+      <option>NZD/JPY</option>
+      <option>NZD/CAD</option>
+      <option>NZD/CHF</option>
+      <option>CAD/JPY</option>
+      <option>CAD/CHF</option>
+      <option>CHF/JPY</option>
+      <option>XAU/USD</option>
+      <option>WTI/USD</option>
+      <option>OIL/USD</option>
+      <option>US30</option>
+    </select>
+  </div>
+
+  <!-- KOTAK ANOMALI -->
+  <div class="anomali-card">
+    <div class="anomali-header"><span class="anomali-search">🔍</span> Anomali Price Action</div>
+    <div class="anomali-row">
+      <span class="anomali-row-label">PAIR:</span>
+      <span class="anomali-row-value" id="anomali-pair">EUR/USD</span>
+    </div>
+    <div class="anomali-row">
+      <span class="anomali-row-label">Anomali:</span>
+      <span class="anomali-row-value red" id="anomali-anomali">SELL</span>
+    </div>
+    <div class="anomali-row">
+      <span class="anomali-row-label">Tujuan:</span>
+      <span class="anomali-row-value green" id="anomali-tujuan">BUY</span>
     </div>
   </div>
 
-  <div class="box" id="anomali-box">
-    <div class="title-3d">📌 Anomali Price Action</div>
-    <div id="anomali-output">Memuat anomali...</div>
+  <!-- SINYAL HARI INI -->
+  <div class="sinyal-card">
+    <div class="sinyal-header">📡 Sinyal Hari Ini</div>
+    <div id="signal-output"></div>
   </div>
 
-  <div class="box" id="signal-box">
-    <div class="title-3d">📡 Sinyal Hari Ini</div>
-    <div id="signal-output">Memuat sinyal...</div>
-  </div>
-
-  <!-- KOTAK BERITA DIABAIKAN -->
-  <!-- <div class="box" id="news-box">
-    <div class="title-3d">📰 Berita Forex Hari Ini</div>
-    <div id="news-output">Memuat berita...</div>
-  </div> -->
+  <!-- KOTAK NEWS JIKA ADA -->
+  <div id="news-output"></div>
 
   <script src="app.js"></script>
 </body>
