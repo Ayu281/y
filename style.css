@@ -59,6 +59,35 @@ body {
   font-weight: bold;
   font-size: 1.1em;
 }
+#refresh-sinyal-float-btn {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 99;
+  width: 52px;
+  height: 52px;
+  background: #222;
+  color: #ff9800;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#refresh-sinyal-float-btn:hover, #refresh-sinyal-float-btn:active {
+  background: #333;
+}
+#refresh-sinyal-float-btn .spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg);}
+}
+
 .value-x.green { color: #41e07e; }
 .value-x.red { color: #ff5454; }
 .value-x { color: #e2e8f0; }
