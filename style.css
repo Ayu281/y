@@ -23,6 +23,38 @@ body {
   color: white;
   border: none;
 }
+.anomali-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 8px 0;
+}
+.anomali-pair {
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  color: #fff;
+}
+.anomali-label {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #ff9800;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  letter-spacing: 1px;
+}
+.anomali-value {
+  font-size: 2em;
+  font-weight: 900;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+.anomali-value.green { color: #4caf50; }
+.anomali-value.red   { color: #f44336; }
+
 .box {
   background: #1e293b;
   margin: 16px;
