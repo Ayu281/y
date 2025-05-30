@@ -14,11 +14,11 @@ function fetchMyfxbookData() {
   fetch(API_URL)
     .then(res => res.json())
     .then(json => {
-      // Map long/short to buy/sell
+      // Map longPercentage/shortPercentage to buy/sell
       const data = (json.symbols || []).map(s => ({
         name: s.name,
-        buy: s.long,
-        sell: s.short
+        buy: s.longPercentage,
+        sell: s.shortPercentage
       }));
       renderKotakAnomali(data);
       renderKotakSinyalHariIni(data);
@@ -91,4 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   fetchMyfxbookData();
   kosongkanNews();
+
+  // AUTO-REFRESH setiap 5 menit (300000 ms)
+  setInterval(() => {
+    fetchMyfxbookData();
+  }, 300000); // 300000 ms = 5 menit
 });
