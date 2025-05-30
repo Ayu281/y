@@ -1,33 +1,82 @@
 const PAIR_MAP = {
-  'EUR/USD': 'EURUSD', 'USD/JPY': 'USDJPY', 'GBP/USD': 'GBPUSD', 'AUD/NZD': 'AUDNZD',
-  'AUD/JPY': 'AUDJPY', 'EUR/JPY': 'EURJPY', 'NZD/USD': 'NZDUSD', 'USD/CHF': 'USDCHF',
-  'CAD/JPY': 'CADJPY', 'GBP/JPY': 'GBPJPY', 'EUR/GBP': 'EURGBP', 'EUR/AUD': 'EURAUD',
-  'AUD/CAD': 'AUDCAD', 'GBP/AUD': 'GBPAUD', 'NZD/JPY': 'NZDJPY', 'EUR/CHF': 'EURCHF',
-  'USD/CAD': 'USDCAD', 'AUD/USD': 'AUDUSD', 'CHF/JPY': 'CHFJPY', 'GBP/CHF': 'GBPCHF',
-  'NZD/CAD': 'NZDCAD', 'USD/SGD': 'USDSGD', 'EUR/NZD': 'EURNZD', 'GBP/NZD': 'GBPNZD',
-  'CAD/CHF': 'CADCHF'
+  'EUR/USD': 'EURUSD', 'USD/JPY': 'USDJPY', 'GBP/USD': 'GBPUSD', 'AUD/USD': 'AUDUSD',
+  'USD/CHF': 'USDCHF', 'NZD/USD': 'NZDUSD', 'USD/CAD': 'USDCAD',
+  'EUR/JPY': 'EURJPY', 'EUR/GBP': 'EURGBP', 'EUR/AUD': 'EURAUD', 'EUR/CHF': 'EURCHF',
+  'EUR/CAD': 'EURCAD', 'EUR/NZD': 'EURNZD',
+  'GBP/JPY': 'GBPJPY', 'GBP/AUD': 'GBPAUD', 'GBP/CHF': 'GBPCHF', 'GBP/CAD': 'GBPCAD', 'GBP/NZD': 'GBPNZD',
+  'AUD/JPY': 'AUDJPY', 'AUD/NZD': 'AUDNZD', 'AUD/CAD': 'AUDCAD', 'AUD/CHF': 'AUDCHF',
+  'NZD/JPY': 'NZDJPY', 'NZD/CAD': 'NZDCAD', 'NZD/CHF': 'NZDCHF',
+  'CAD/JPY': 'CADJPY', 'CAD/CHF': 'CADCHF',
+  'CHF/JPY': 'CHFJPY',
+  // Komoditas
+  'XAU/USD': 'XAUUSD', // Emas
+  'WTI/USD': 'WTIUSD', // WTI Oil
+  'OIL/USD': 'OILUSD', // Oil (jika ada)
+  // Indeks
+  'US30': 'US30', // Dow Jones
 };
+
+const PAIR_UMUM = [
+  // Major
+  "EURUSD", "USDJPY", "GBPUSD", "AUDUSD", "USDCHF", "NZDUSD", "USDCAD",
+  // Minor
+  "EURJPY", "EURGBP", "EURCHF", "EURCAD", "EURAUD", "EURNZD",
+  "GBPJPY", "GBPAUD", "GBPCHF", "GBPCAD", "GBPNZD",
+  "AUDJPY", "AUDNZD", "AUDCAD", "AUDCHF",
+  "NZDJPY", "NZDCAD", "NZDCHF",
+  "CADJPY", "CADCHF", "CHFJPY",
+  // Komoditas
+  "XAUUSD", "WTIUSD", "OILUSD",
+  // Indeks utama
+  "US30"
+];
 
 const API_URL = "https://corsproxy.io/?https://www.myfxbook.com/api/get-community-outlook.json?session=9UtvFTG9S31Z4vO1aDW31671626";
 
-function fetchMyfxbookData() {
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(json => {
-      // Perbaikan: gunakan longPercentage/shortPercentage
-      const data = (json.symbols || []).map(s => ({
-        name: s.name,
-        buy: s.longPercentage,
-        sell: s.shortPercentage
-      }));
-      renderKotakAnomali(data);
-      renderKotakSinyalHariIni(data);
-    })
-    .catch(err => {
-      document.getElementById("signal-output").innerText = "Gagal ambil sinyal: " + err;
-      document.getElementById("anomali-output").innerText = "Gagal ambil anomali: " + err;
-      console.error(err);
-    });
+// Tombol refresh otomatis diinject
+function injectRefreshButton() {
+  if (!document.getElementById("refresh-sinyal-btn")) {
+    const btn = document.createElement("button");
+    btn.id = "refresh-sinyal-btn";
+    btn.title = "Refresh Sinyal";
+    btn.innerHTML = '<span style="font-size:18px;vertical-align:middle" class="refresh-icon">&#x21bb;</span> Refresh Sinyal';
+    btn.style.margin = "12px 0 8px 0";
+    btn.style.padding = "4px 12px";
+    btn.style.borderRadius = "6px";
+    btn.style.border = "none";
+    btn.style.background = "#222";
+    btn.style.color = "#ff9800";
+    btn.style.cursor = "pointer";
+    btn.onclick = () => {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="refresh-icon" style="font-size:18px;vertical-align:middle">&#8635;</span> Memuat...';
+      fetchMyfxbookData().then(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<span style="font-size:18px;vertical-align:middle" class="refresh-icon">&#x21bb;</span> Refresh Sinyal';
+      });
+    };
+    const signalBox = document.getElementById("signal-output").parentElement;
+    signalBox.insertBefore(btn, signalBox.firstChild);
+  }
+}
+
+async function fetchMyfxbookData() {
+  try {
+    const res = await fetch(API_URL);
+    const json = await res.json();
+    // Gunakan longPercentage/shortPercentage
+    const data = (json.symbols || []).map(s => ({
+      name: s.name,
+      buy: s.longPercentage,
+      sell: s.shortPercentage
+    }));
+    renderKotakAnomali(data);
+    renderKotakSinyalHariIni(data);
+  } catch (err) {
+    document.getElementById("signal-output").innerText = "Gagal ambil sinyal: " + err;
+    document.getElementById("anomali-output").innerText = "Gagal ambil anomali: " + err;
+    console.error(err);
+  }
 }
 
 function renderKotakAnomali(data) {
@@ -68,8 +117,10 @@ function renderKotakAnomali(data) {
 }
 
 function renderKotakSinyalHariIni(data) {
-  // Filter semua data yang buy >= 70 atau sell >= 70
-  const filtered = data.filter(p => ((p.buy >= 70) || (p.sell >= 70)));
+  // Filter: hanya PAIR_UMUM (mayor, minor, komoditas, indeks utama) dan buy/sell ≥ 70%
+  const filtered = data.filter(
+    p => PAIR_UMUM.includes(p.name) && (p.buy >= 70 || p.sell >= 70)
+  );
   const output = filtered.map(p => {
     let signal = p.buy >= p.sell ? "BUY" : "SELL";
     return `<div class="row-x">
@@ -78,6 +129,8 @@ function renderKotakSinyalHariIni(data) {
     </div>`;
   }).join('') || "<i>Tidak ada sinyal dengan kriteria (≥ 70%)</i>";
   document.getElementById("signal-output").innerHTML = output;
+  // Pastikan tombol refresh tetap ada
+  setTimeout(injectRefreshButton, 100);
 }
 
 // Kosongkan kotak news
@@ -91,6 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   fetchMyfxbookData();
   kosongkanNews();
+
+  // Inject tombol refresh saat pertama load
+  setTimeout(injectRefreshButton, 500);
 
   // AUTO-REFRESH setiap 5 menit (300000 ms)
   setInterval(() => {
