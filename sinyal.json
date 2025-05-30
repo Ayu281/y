@@ -1,0 +1,32 @@
+[
+  {
+    "name": "EURUSD",
+    "buy": 25,
+    "sell": 75,
+    "signal": "SELL"
+  },
+  {
+    "name": "USDJPY",
+    "buy": 78,
+    "sell": 22,
+    "signal": "BUY"
+  },
+  {
+    "name": "AUDJPY",
+    "buy": 72,
+    "sell": 28,
+    "signal": "BUY"
+  },
+  {
+    "name": "EURAUD",
+    "buy": 30,
+    "sell": 70,
+    "signal": "SELL"
+  },
+  {
+    "name": "GBPUSD",
+    "buy": 69,
+    "sell": 31,
+    "signal": ""
+  }
+]
