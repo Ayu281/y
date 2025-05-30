@@ -1,12 +1,18 @@
 const fetch = require('node-fetch');
 
+
+
+
+
+
+
 // ==== KONFIGURASI WAJIB ====
 // Masukkan token bot telegram kamu di sini
-const TELEGRAM_BOT_TOKEN = "ISI_TOKEN_BOT_KAMU";
+const TELEGRAM_BOT_TOKEN = "8127447550:AAGKdqsYEwxT9iEYWrrGgijakir9qTzJVsU";
 // Masukkan username channel kamu (misal: @namachannel) atau chat_id
-const CHANNEL_ID = "@ISI_USERNAME_CHANNEL_KAMU";
+const CHANNEL_ID = "@info_seputarforex";
 // Masukkan session key Myfxbook kamu di sini
-const MYFXBOOK_SESSION_KEY = "ISI_SESSION_KEY_MYFXBOOK_KAMU";
+const MYFXBOOK_SESSION_KEY = "DSL07vu14QxHWErTIAFrH40";
 // Pair yang diizinkan
 const allowedPairs = [
   "EURUSD", "GBPUSD", "AUDUSD", "NZDUSD", "USDJPY", "USDCHF", "USDCAD",
